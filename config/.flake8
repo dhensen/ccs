@@ -1,0 +1,17 @@
+[flake8]
+exclude =
+  .vscode,
+  .idea,
+  .git,
+  .tox,
+  bin,
+  .venv,
+  .pytest_cache
+max-line-length = 100
+ignore =
+; (E501) line too long
+; because yapf always runs before flake8, only lines exceeding 100 columns left are those not solvable by yapf.
+  E501,
+; (E251) unexpected spaces around keyword / parameter equals
+; yapf introduces this when kwargs and literal exceed 100 column
+  E251

@@ -1,0 +1,26 @@
+#!/bin/bash
+# ccs = central coding standards
+# $1 must be program name (yapf or flake8, etc)
+# flake8 example: ./ccs flake8 ./external_app.py
+# yapf example: ./ccs yapf -i ./external_app.py
+
+DEBUG=false  # only use true or false here
+
+# last parameter must be the source file, this might be a relative path
+source_file="${@: -1}"
+
+# resolve the absolute path to the source file, docker volume mount needs absolute paths
+abs_source_file=$(readlink -f $source_file)
+$DEBUG && echo $abs_source_file
+
+# take the directory path only, this will be a mount point
+source_dir_name=$(dirname $abs_source_file)
+$DEBUG && echo $source_dir_name
+
+file_name=$(basename $source_file)
+
+docker build -t coding-standards . > /dev/null 2>&1
+docker run -v $source_dir_name:/workdir/app coding-standards $@
+
+# $@ is used instead of $1 $2 to prevent yapf from thinking it reads from stdin
+# $@ Expands to the positional parameters, so "$1" "$2" etc..
