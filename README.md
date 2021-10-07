@@ -1,5 +1,7 @@
 # Centralizing coding standards
 
+Idea inspired by [@beardedfoo]( https://github.com/beardedfoo )
+
 Centralize python tooling (linters, formatters, etc).
 These tools are installed in a docker image.
 This image is wrapped by a bash script.
